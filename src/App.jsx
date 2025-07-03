@@ -120,7 +120,7 @@ function App() {
             <p><strong>Last Name:</strong> {item.lastName}</p>
             <p><strong>Email:</strong> {item.email}</p>
             <div className="flex gap-3 mt-3">
-              <button onClick={() => handleEdit(index)} className="bg-yellow-400 text-white px-4 py-1 rounded hover:bg-yellow-500" >
+              <button onClick={() =>{ handleEdit(index); openModal()}} className="bg-yellow-400 text-white px-4 py-1 rounded hover:bg-yellow-500" >
                 Edit
               </button>
               <button onClick={() => handleDelete(index)} className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
