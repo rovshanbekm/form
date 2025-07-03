@@ -16,7 +16,19 @@ function App() {
 
   const [dataList, setDataList] = useState([]); 
   const [editingIndex, setEditingIndex] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  
+  const closeModal = () => {
+    setIsModalOpen(false);
+    reset();
+    setEditingIndex(null);
+  };
+  
   const onSubmit = (data) => {
     if (editingIndex !== null) {
       const updatedList = [...dataList];
@@ -28,6 +40,7 @@ function App() {
     }
     toast.success('yaxshi')
     reset();
+    closeModal(); 
   };
 
   const handleEdit = (index) => {
@@ -61,7 +74,17 @@ function App() {
 
   return (
     <div className="p-4">
-      <form className="flex flex-col gap-3 w-[500px]" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <button onClick={openModal} className='border-2 w-[50px]'>click</button>
+    {isModalOpen && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={closeModal}>
+    <div className="bg-white p-6 rounded-lg w-[500px] relative" onClick={(e) => e.stopPropagation()}>
+      <button
+        className="absolute top-2 right-2 text-gray-500 hover:text-black"
+        onClick={closeModal}
+      >
+        ✕
+      </button>
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)} noValidate>
         <input type="text" className="border-2 p-2" placeholder="First Name" {...register('firstName', { required: 'First name hato' })}/>
         {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
 
@@ -79,10 +102,15 @@ function App() {
         />
         {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          {editingIndex !== null ? 'Update' : 'Submit'}
-        </button>
+        <div className="flex gap-3">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+            {editingIndex !== null ? 'Update' : 'Submit'}
+          </button>
+        </div>
       </form>
+    </div>
+  </div>
+    )}  
 
       <div className="mt-6 grid gap-4 grid-cols-4 ">
         {dataList.map((item, index) => (
